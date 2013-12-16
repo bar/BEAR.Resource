@@ -109,4 +109,6 @@ interface ResourceInterface
      * @return mixed
      */
     public function href($rel, array $query = []);
+
+//    public function setExceptionHandler(exceptionHandlerInerface $handler);
 }

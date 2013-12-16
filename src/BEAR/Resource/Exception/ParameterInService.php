@@ -7,8 +7,8 @@
 namespace BEAR\Resource\Exception;
 
 /**
- * Invalid parameter
+ * Resource service exception
  */
-class Parameter extends \RuntimeException implements ExceptionInterface
+class ParameterInService extends Service implements ExceptionInterface
 {
 }

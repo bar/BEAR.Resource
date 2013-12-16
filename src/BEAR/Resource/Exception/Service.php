@@ -6,9 +6,11 @@
  */
 namespace BEAR\Resource\Exception;
 
+use LogicException;
+
 /**
- * Invalid parameter
+ * Resource service exception
  */
-class Parameter extends \RuntimeException implements ExceptionInterface
+class Service extends \Exception implements ExceptionInterface
 {
 }

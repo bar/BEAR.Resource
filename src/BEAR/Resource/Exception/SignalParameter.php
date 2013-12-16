@@ -6,9 +6,8 @@
  */
 namespace BEAR\Resource\Exception;
 
-/**
- * Invalid parameter
- */
-class Parameter extends \RuntimeException implements ExceptionInterface
+use RuntimeException;
+
+class SignalParameter extends Parameter implements ExceptionInterface
 {
 }

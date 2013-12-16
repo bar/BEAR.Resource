@@ -63,6 +63,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         /** @var $resource \BEAR\Resource\Resource */
         $this->resource = $resource;
         $this->resource->setSchemeCollection($scheme);
+        $GLOBALS['RESOURCE'] = $this->resource;
 
         // new resource object;
         $factory = new Factory($scheme);
@@ -388,5 +389,31 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     {
         $actual = $resource->delete->uri('app://self/param/user')->eager->request();
         $this->assertSame("author:10", $actual->body);
+    }
+
+    /**
+     * @depends testOnProvides
+     *
+     * @expectedException \BEAR\Resource\Exception\Parameter
+     */
+    public function testInsufficientParamRequest(ResourceInterface $resource)
+    {
+        $insufficientParams = [];
+        $resource->put->uri('app://self/param/user')->withQuery($insufficientParams)->eager->request();
+    }
+
+    /**
+     * @depends testOnProvides
+     */
+    public function testLayeredResourceRequest(ResourceInterface $resource)
+    {
+        try {
+            $validParams = ['id' => 0];
+            $resource->put->uri('app://self/param/user')->withQuery($validParams)->eager->request();
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('BEAR\Resource\Exception\ParameterInService', $e);
+            $this->assertInstanceOf('BEAR\Resource\Exception\Parameter', $e->getPrevious());
+            $this->assertInstanceOf('BEAR\Resource\Exception\SignalParameter', $e->getPrevious());
+        }
     }
 }
